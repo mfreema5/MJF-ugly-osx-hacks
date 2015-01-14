@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+#  When run from TextWrangler, this will execute a
+#  "git commit" in the path of the frontmost document.
+#
+#  When called, it opens a temporary file in the system
+#  editor for making commit comments.  The editor window
+#  must be closed for the script to continue.
+#
+#  06-Sep-14
+#  MJF
+
+  # Change to directory of frontmost file
+cd "${BB_DOC_PATH%/*}"
+
+  # Create a temp file for comments
+Mtmp=$(mktemp /tmp/git-commit.XXXX)
+
+  # Start commit comment in temp file.
+printf "From TW: " >> $Mtmp
+
+  # Open file to add comments ; the "W"
+  # option waits until the editor is
+  # closed before continuing script
+open -Wne $Mtmp || exit
+
+  # Commit
+git commit --file=$Mtmp &> /dev/null
+
+  # Remove temp file
+rm $Mtmp
