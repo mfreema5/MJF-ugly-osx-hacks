@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+#  When run from TextWrangler, this will execute "git add" on is the
+#  frontmost document open in TextWrangler.
+#
+#  MJF
+#  14 Jan 2015
+
+
+  # Change to directory of frontmost file
+cd "${BB_DOC_PATH%/*}"
+
+  # Commit frontmost file ; hide any output
+git add "$BB_DOC_NAME" &> /dev/null
